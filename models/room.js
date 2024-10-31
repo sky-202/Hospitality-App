@@ -37,8 +37,8 @@ const roomSchema = new mongoose.Schema({
     type: Boolean, 
     default: false,
   },
-  hotel: { type: mongoose.Schema.Types.ObjectId, ref: "Hotel" },
-  
+  hotel: { type: mongoose.Schema.Types.ObjectId, ref: "hotel" },
+  roomType: { type: mongoose.Schema.Types.ObjectId, ref: "room-type" }
 });
 
 const Room = mongoose.model("room", roomSchema);

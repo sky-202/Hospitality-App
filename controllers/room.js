@@ -12,8 +12,16 @@ const createRoom = async (req, res) => {
     price,
     isDeleted,
     isActive,
+    hotel,
+    roomType
   } = req.body;
 
+  if(!hotel){
+    return res.status(400).json({ message: "Hotel is required" });
+  }
+  if(!roomType){
+    return res.status(400).json({ message: "Room Type is required" });
+  }
   if (!roomNo) {
     return res.status(400).json({ message: "Room Number is required" });
   }
@@ -34,6 +42,13 @@ const createRoom = async (req, res) => {
   }
   if (!price) {
     return res.status(400).json({ message: "Contact Number is required and must be of 10 digits" });
+  }
+  const uniqueRoom = await Room.find({roomNo: roomNo})
+  
+  if(uniqueRoom.length > 0 && uniqueRoom){
+    return res.status(400).json({
+      message: "Room Number must be unique"
+    })
   }
   const room = await Room.create(req.body);
   res.status(201).json({
@@ -92,10 +107,11 @@ const deleteRoom = async (req, res) => {
 
 //Find all rooms which are not deleted
 const getRooms = async (req, res) => {
+  let id = req.params.id;
   const getRooms = await Room.find({
+    hotel: id,
     isDeleted: false,
-  });
-
+  }).populate(["hotel", "roomType"]);
   return res.status(200).json({
     message: "All rooms",
     data: getRooms,

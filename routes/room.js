@@ -7,7 +7,7 @@ const router = express.Router();
 router.post("/create-room", createRoom)
 
 //For getting all rooms
-router.get('/get-rooms',getRooms)
+router.get('/get-rooms/:id',getRooms)
 
 //For getting room by id
 router.get('/get-room/:id',getRoom)
