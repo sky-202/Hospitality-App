@@ -1,4 +1,4 @@
-const Room = require("../models/room")
+const Room = require("../models/room");
 
 //Create Room
 const createRoom = async (req, res) => {
@@ -13,13 +13,13 @@ const createRoom = async (req, res) => {
     isDeleted,
     isActive,
     hotel,
-    roomType
+    roomType,
   } = req.body;
 
-  if(!hotel){
+  if (!hotel) {
     return res.status(400).json({ message: "Hotel is required" });
   }
-  if(!roomType){
+  if (!roomType) {
     return res.status(400).json({ message: "Room Type is required" });
   }
   if (!roomNo) {
@@ -41,14 +41,16 @@ const createRoom = async (req, res) => {
     return res.status(400).json({ message: "TV Serial Number is required" });
   }
   if (!price) {
-    return res.status(400).json({ message: "Contact Number is required and must be of 10 digits" });
+    return res
+      .status(400)
+      .json({ message: "Contact Number is required and must be of 10 digits" });
   }
-  const uniqueRoom = await Room.find({roomNo: roomNo})
-  
-  if(uniqueRoom.length > 0 && uniqueRoom){
+  const uniqueRoom = await Room.find({ roomNo: roomNo });
+
+  if (uniqueRoom.length > 0 && uniqueRoom) {
     return res.status(400).json({
-      message: "Room Number must be unique"
-    })
+      message: "Room Number must be unique",
+    });
   }
   const room = await Room.create(req.body);
   res.status(201).json({
